@@ -51,7 +51,10 @@ $bookInfo = json_decode($response, true);
 
 $title = $db->escapeStrings(htmlspecialchars($bookInfo['title']));
 
-$insertNewBookSql = "INSERT INTO booksManager (title, code) VALUES ('$title', '$code')";
+$insertNewBookSql = "INSERT INTO booksManager (title, code)
+SELECT '$title', '$code'
+WHERE NOT EXISTS (SELECT 1 FROM booksManager WHERE code = '$code');
+";
 
 $db -> query($insertNewBookSql);
 

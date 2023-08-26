@@ -11,7 +11,7 @@ if (!isset($_GET["code"])) {
 
 $db = new Database;
 
-$code = $db->escapeStrings($_GET["code"]);
+$code = $db->escapeStrings(htmlspecialchars($_GET["code"]));
 
 $apiUrl = "https://www.openlibrary.org/isbn/" . $code . ".json";
 
@@ -22,25 +22,39 @@ $curl = curl_init($apiUrl);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_HEADER, true); 
 
 $response = curl_exec($curl);
-
+$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 if (!$response){
-    echo json_encode(array("error" => "error"));
+    $message = "An error occurred";
+    header("location: ../index.php?message=" . htmlspecialchars($message));
     exit();
+}
+
+if($httpcode != 200){
+    if($httpcode == 404){
+        $message = "Invalid book code.";
+        header("location: ../index.php?message=" . htmlspecialchars($message));
+        exit();
+    }else{
+        $message = "An error occurred";
+        header("location: ../index.php?message=" . htmlspecialchars($message));
+        exit();
+    }
 }
 
 curl_close($curl);
 
 $bookInfo = json_decode($response, true);
 
-$title = $db->escapeStrings($bookInfo['title']);
+$title = $db->escapeStrings(htmlspecialchars($bookInfo['title']));
 
 $insertNewBookSql = "INSERT INTO booksManager (title, code) VALUES ('$title', '$code')";
 
 $db -> query($insertNewBookSql);
 
 $message = "The new book was successfully added";
-header("location: index.php?message=" . htmlspecialchars($message));
+header("location: ../index.php?message=" . htmlspecialchars($message));
 ?>

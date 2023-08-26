@@ -1,13 +1,19 @@
 <?php
-header('Content-type: application/json; charset=utf-8');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include_once("utils/database.php");
 
 if (!isset($_GET["code"])) {
     exit();
 }
 
-$code = $_GET["code"];
+$db = new Database;
 
-$apiUrl = "https://openlibrary.org/isbn/" . $code . ".json";
+$code = $db->escapeStrings($_GET["code"]);
+
+$apiUrl = "https://www.openlibrary.org/isbn/" . $code . ".json";
 
 
 
@@ -27,6 +33,14 @@ if (!$response){
 
 curl_close($curl);
 
-$bookInfo = json_decode($response);
+$bookInfo = json_decode($response, true);
 
+$title = $db->escapeStrings($bookInfo['title']);
+
+$insertNewBookSql = "INSERT INTO booksManager (title, code) VALUES ('$title', '$code')";
+
+$db -> query($insertNewBookSql);
+
+$message = "The new book was successfully added";
+header("location: index.php?message=" . htmlspecialchars($message));
 ?>

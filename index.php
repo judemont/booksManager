@@ -13,7 +13,7 @@
     <?php
     if(isset($_GET["message"])){
         $message = $_GET["message"];
-        echo $message;
+        echo "<p class='message'>$message</p>";
     }
 
     if(isset($_GET["p"])){

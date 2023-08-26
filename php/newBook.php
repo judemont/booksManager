@@ -15,6 +15,7 @@ $curl = curl_init($apiUrl);
 
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($curl);
 
@@ -26,5 +27,6 @@ if (!$response){
 
 curl_close($curl);
 
-echo $response. PHP_EOL;;
+$bookInfo = json_decode($response);
+
 ?>

@@ -10,7 +10,12 @@
         <h1>The Books Manager</h1>
     </header>
 
-    <?php   
+    <?php
+    if(isset($_GET["message"])){
+        $message = $_GET["message"];
+        echo $message;
+    }
+
     if(isset($_GET["p"])){
         $page = $_GET["p"];
         if($page == "home"){

@@ -29,18 +29,18 @@ $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 if (!$response){
     $message = "An error occurred";
-    header("location: ../index.php?message=" . htmlspecialchars($message));
+    header("location: ../index.php?p=new&message=" . htmlspecialchars($message));
     exit();
 }
 
 if($httpcode != 200){
     if($httpcode == 404){
         $message = "Invalid book code.";
-        header("location: ../index.php?message=" . htmlspecialchars($message));
+        header("location: ../index.php?p=new&message=" . htmlspecialchars($message));
         exit();
     }else{
         $message = "An error occurred";
-        header("location: ../index.php?message=" . htmlspecialchars($message));
+        header("location: ../index.php?p=new&message=" . htmlspecialchars($message));
         exit();
     }
 }

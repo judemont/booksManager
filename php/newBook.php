@@ -1,15 +1,15 @@
 <?php
 include_once("utils/database.php");
 
-if (!isset($_GET["code"])) {
+if (!isset($_GET["urlKey"])) {
     exit();
 }
 
 $db = new Database;
 
-$code = $db->escapeStrings(htmlspecialchars($_GET["code"]));
+$code = $db->escapeStrings(htmlspecialchars($_GET["urlKey"]));
 
-$apiUrl = "https://www.openlibrary.org/isbn/" . $code . ".json";
+$apiUrl = "https://openlibrary.org/" . $code . ".json";
 
 
 
@@ -47,11 +47,10 @@ $bookInfo = json_decode($response, true);
 
 $title = $db->escapeStrings(htmlspecialchars($bookInfo['title']));
 
-$coverUrl = "https://covers.openlibrary.org/b/isbn/$code-M.jpg";
+$coverUrl = $db->escapeStrings(htmlspecialchars("https://covers.openlibrary.org/b/id/" . $bookInfo['covers'][0] . "-M.jpg"));
 
-$insertNewBookSql = "INSERT INTO tbm_books (title, code, coverUrl)
-SELECT '$title', '$code', '$coverUrl'
-WHERE NOT EXISTS (SELECT 1 FROM tbm_books WHERE code = '$code');
+$insertNewBookSql = "INSERT INTO tbm_books (title, coverUrl)
+VALUES ('$title', '$coverUrl');
 ";
 
 $db -> query($insertNewBookSql);

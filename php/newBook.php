@@ -35,7 +35,7 @@ if($httpcode != 200){
         header("location: ../index.php?p=new&message=" . htmlspecialchars($message));
         exit();
     }else{
-        $message = "An error occurred";
+        $message = "An error occurred ($httpcode)";
         header("location: ../index.php?p=new&message=" . htmlspecialchars($message));
         exit();
     }
@@ -47,8 +47,10 @@ $bookInfo = json_decode($response, true);
 
 $title = $db->escapeStrings(htmlspecialchars($bookInfo['title']));
 
-$insertNewBookSql = "INSERT INTO tbm_books (title, code)
-SELECT '$title', '$code'
+$coverUrl = "https://covers.openlibrary.org/b/isbn/$code-M.jpg";
+
+$insertNewBookSql = "INSERT INTO tbm_books (title, code, coverUrl)
+SELECT '$title', '$code', '$coverUrl'
 WHERE NOT EXISTS (SELECT 1 FROM tbm_books WHERE code = '$code');
 ";
 

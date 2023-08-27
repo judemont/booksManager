@@ -5,3 +5,8 @@
 button{
     cursor: pointer;
 }
+
+.homeLinkTitle{
+    text-decoration: none;
+    color: black;
+}

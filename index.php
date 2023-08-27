@@ -8,7 +8,9 @@
 </head>
 <body>
     <header>
-        <h1>The Books Manager</h1>
+        <a class="homeLinkTitle" href="index.php">
+            <h1>The Books Manager</h1>
+        </a>
     </header>
 
     <?php

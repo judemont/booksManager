@@ -16,9 +16,9 @@ function displayBooks(books, booksEmp) {
 
 function getBookHtml(title, id, coverUrl){
     return `
-        <div id='book_${id}'>
-            <h2>${title}</h2>
-            <img src="${coverUrl}" alt="${title} Cover">
+        <div id='book_${id}' class="book">
+            <h2 class="book-title">${title}</h2>
+            <img src="${coverUrl}" alt="${title} Cover" class="book-img">
         </div>
     `;
 }

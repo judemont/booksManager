@@ -9,7 +9,7 @@
 <body>
     <header>
         <a class="homeLinkTitle" href="index.php">
-            <h1>The Books Manager</h1>
+            <h1 class="main-title">The Books Manager</h1>
         </a>
     </header>
 

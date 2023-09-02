@@ -36,6 +36,8 @@ searchInput.addEventListener("input", function (e) {
     const resultsEmp = document.getElementById("resultsEmp")
     const content = this.value;
 
-    getSearchJson(content).then(result => displayResults(result.docs, resultsEmp));
+    if(content.length > 3){
+        getSearchJson(content).then(result => displayResults(result.docs, resultsEmp));
+    }
 
 });

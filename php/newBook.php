@@ -47,7 +47,11 @@ $bookInfo = json_decode($response, true);
 
 $title = $db->escapeStrings(htmlspecialchars($bookInfo['title']));
 
-$coverUrl = $db->escapeStrings(htmlspecialchars("https://covers.openlibrary.org/b/id/" . $bookInfo['covers'][0] . "-M.jpg"));
+if(isset($bookInfo['covers'][0])){
+    $coverUrl = $db->escapeStrings(htmlspecialchars("https://covers.openlibrary.org/b/id/" . $bookInfo['covers'][0] . "-M.jpg"));
+}else{
+    $coverUrl = "images/default_book.jpeg";
+}
 
 $insertNewBookSql = "INSERT INTO tbm_books (title, coverUrl)
 VALUES ('$title', '$coverUrl');
